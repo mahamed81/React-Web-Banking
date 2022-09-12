@@ -12,19 +12,25 @@ const userSlice = createSlice({
     setCurrentUser: (state, action)=>{
         console.log("action " + action.payload)
       return { ...state, 
-        currentUser: action.payload 
-      
+        currentUser: action.payload,
       }
-
-
     }
   }
 })
 
 export const userReducer = userSlice.reducer
-export const {setCurrentUser}= userSlice.actions;
+export const {setCurrentUser, setBalance}= userSlice.actions;
 export const selectCurrentUser = (state)=>{
   return state.user.currentUser
 }
+export const getBalance = (state)=>{
+    const {balance}={
+      ...state,
+      balance: state.user.currentUser.movements
+      .reduce((acc, mov) => acc + mov, 0)
+    }
+  return balance;
+  
 
+}
 

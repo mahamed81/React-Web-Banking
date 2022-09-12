@@ -1,10 +1,7 @@
-import { ACCOUNTS } from "../../app/shared/accounts";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../users/userSlice";
-import UserLoginForm from "../users/userLoginForm";
+import { formatCur } from "../../util/formatCur";
 
-const Transaction = () => {
-  const account = useSelector(selectCurrentUser);
+const Transaction = (props) => {
+ 
 
   const formatMovementDate = function (date, locale) {
     const calcDaysPassed = (date1, date2) =>
@@ -17,13 +14,6 @@ const Transaction = () => {
     if (daysPassed === 1) return "Yesterday";
     if (daysPassed <= 7) return `${daysPassed} days ago`;
     return new Intl.DateTimeFormat(locale).format(date);
-  };
-
-  const formatCur = function (value, locale, currency) {
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: currency,
-    }).format(value);
   };
 
   const displayMovements = function (acc, sort = false) {
@@ -55,20 +45,14 @@ const Transaction = () => {
       return temp;
     }
   };
-    if(account === null){
-      return(
-        <UserLoginForm/>
-      )
-    }
+  
      
-      const { date, move, type } = displayMovements(account);
+      const { date, move, type } = displayMovements(props.account);
     
 
   return (
     <>
-     <div>
-      <UserLoginForm/>
-    </div>
+  
 <div className="movements">
   {move.map((move, ind) => {
     return (
